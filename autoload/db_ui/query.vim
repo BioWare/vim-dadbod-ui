@@ -213,6 +213,10 @@ endfunction
 function! s:query.execute_query(...) abort
   let is_visual_mode = get(a:, 1, 0)
   let lines = self.get_lines(is_visual_mode)
+  " Save context for dbout buffer attribution
+  let g:dbui_last_query_db_key = get(b:, 'dbui_db_key_name', '')
+  let g:dbui_last_query_table = get(b:, 'dbui_table_name', '')
+  let g:dbui_last_query_lines = lines
   call s:start_query()
   if !is_visual_mode && search(s:bind_param_rgx, 'n') <= 0
     call db_ui#utils#print_debug({ 'message': 'Executing whole buffer', 'command': '%DB' })
